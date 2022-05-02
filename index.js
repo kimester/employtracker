@@ -18,8 +18,8 @@ const pick = ()=> {
     inquirer.prompt
     {
         type:'list',
-        message:'What would you like to do?',
         name:'input',
+        message:'What would you like to do?',
         choices: ["add Department", "add Role"]
     },
 }
@@ -68,7 +68,7 @@ const addRole = () => {
         }
 
 
-        db.query(`INSERT INTO department (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
+        db.query(`INSERT INTO role (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
            console.log('Added role!');
             menu();
         })
@@ -98,7 +98,7 @@ const addEmployee = () => {
         }
 
 
-        db.query(`INSERT INTO department (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
+        db.query(`INSERT INTO employee (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
            console.log('Added role!');
             menu();
         })
