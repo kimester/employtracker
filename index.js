@@ -14,15 +14,15 @@ const db = mysql.createConnection(
 );
 
 
-const pick = ()=> {
-    inquirer.prompt
+const pick = [
+
     {
         type:'list',
         name:'input',
         message:'What would you like to do?',
-        choices: ["add Department", "add Role"]
+        choices: ["view all departments", "view all roles", "view all employees", "add a department","add a role","add and employee","update an employee"]
     },
-}
+];
 
 const addDepartment = () => {
     inquirer.prompt ([
@@ -37,11 +37,6 @@ const addDepartment = () => {
             name:'name'
         }
 
-
-        db.query(`INSERT INTO department (id,name) VALUES (?,?)`,[res.id, res.name], (err,data) => {
-           console.log('Added department!');
-            menu();
-        })
     ])
 }
 const addRole = () => {
@@ -68,10 +63,7 @@ const addRole = () => {
         }
 
 
-        db.query(`INSERT INTO role (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
-           console.log('Added role!');
-            menu();
-        })
+       
     ])
 }
 const addEmployee = () => {
@@ -93,14 +85,9 @@ const addEmployee = () => {
         },
         {
             type:'input',
-            message:'department_id',
-            name:'departmentid'
+            message:'manager_id',
+            name:'managerid'
         }
 
-
-        db.query(`INSERT INTO employee (id,title,salary,departmentid) VALUES (?,?)`,[res.id, res.title, res.salary, res.departmentid], (err,data) => {
-           console.log('Added role!');
-            menu();
-        })
     ])
 }
