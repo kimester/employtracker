@@ -34,10 +34,10 @@ function loadQuestion() {
          
           break;
         case "view all employees":
-         
+         viewAllRoles();
           break;
         case "add a department":
-         
+         viewAllEmployees();
           break;
         case "add a role":
           
@@ -63,7 +63,24 @@ function viewAllDepartments() {
     .then(() => loadQuestion());
 }
 
+function viewAllRoles() {
+  db.findRoles()
+  .then(([data]) => {
+    console.table(data);
+  })
+  .then(()=>loadQuestion());
+  
+}
+
+function viewAllEmployees() {
+  db.findEmployees()
+  .then(([data]) =>{
+    console.table(data);
+  })
+  .then(() => loadQuestion());
+}
 start();
+
 // // Inserting into database
 // db.query(
 //   `INSERT INTO department (name) VALUES (?,?)`,
