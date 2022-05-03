@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 require("console.table");
 const db = require("./db");
+const mysql = require('mysql2');
 
 function start() {
   loadQuestion();
@@ -17,10 +18,10 @@ function loadQuestion() {
           "view all departments",
           "view all roles",
           "view all employees",
-          "add a department",
-          "add a roles",
-          "add an employee",
-          "update an employee role",
+          "add department",
+          "add roles",
+          "add employee",
+          "update employee role",
           "Quit",
         ],
       },
@@ -40,12 +41,12 @@ function loadQuestion() {
          addDepartment();
           break;
         case "add roles":
-          addRole();
+          addRoles();
           break;
         case "add employee":
          addEmployee();
           break;
-        case "update an employee":
+        case "update employee":
          updateRoles();
           break;
         default:
@@ -79,7 +80,7 @@ function viewAllEmployees() {
   })
   .then(() => loadQuestion());
 }
-start();
+
 
 // add employee
 function addEmployee() {
@@ -179,5 +180,5 @@ function updateRoles() {
   })
 }
 
-
+start();
 
