@@ -1,17 +1,4 @@
-const mysql = require('mysql2')
-const inquirer = require("inquirer")
 
-//connect to database 
-const db = mysql.createConnection(
-   {
-       host: 'local host',
-       user: 'root',
-       password: 'password',
-       database: 'employee_db'
-   },
-      
-    console.log('Connect to employee_db database.')
-);
 
 
 const pick = [
