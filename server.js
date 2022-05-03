@@ -18,9 +18,9 @@ function loadQuestion() {
           "view all roles",
           "view all employees",
           "add a department",
-          "add a role",
+          "add a roles",
           "add an employee",
-          "update an employee",
+          "update an employee role",
           "Quit",
         ],
       },
@@ -31,22 +31,22 @@ function loadQuestion() {
           viewAllDepartments();
           break;
         case "view all roles":
-         
+          viewAllRoles();
           break;
         case "view all employees":
-         viewAllRoles();
+        viewAllEmployees();
           break;
-        case "add a department":
-         viewAllEmployees();
+        case "add department":
+         addDepartment();
           break;
-        case "add a role":
-          
+        case "add roles":
+          addRole();
           break;
-        case "add an employee":
-         
+        case "add employee":
+         addEmployee();
           break;
         case "update an employee":
-         
+         updateRoles();
           break;
         default:
           process.exit()
@@ -81,46 +81,103 @@ function viewAllEmployees() {
 }
 start();
 
-// // Inserting into database
-// db.query(
-//   `INSERT INTO department (name) VALUES (?,?)`,
-//   [ res.name],
-//   (err, data) => {
-//     console.log("Added department!");
-//     menu();
-//   }
-// );
+// add employee
+function addEmployee() {
+  inquirer.prompt([
+      {
+          type: "input",
+          name: "firstName",
+          message: "enter employee first name"
+      },
+      {
+          type:"input",
+          name:"lastName",
+          message:"enter employee last name"
+      },
+      {
+          type:"number",
+          name: "roleId",
+          prompt: "enter role ID"
+      },
+      {
+          type:"number",
+          name: "managerId",
+          prompt: "enter manager ID"
+      }
+  ]).then((res) => {
+      db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [res.firstName, res.lastName, res.roleId, res.managerId],(err, data) => {
+          if (err) throw err;
+          console.table(data);
+          prompts();
+      })
+  })
+}
 
-// db.query(
-//   `INSERT INTO role (id,title,salary,departmentid) VALUES (?,?,?,?)`,
-//   [res.id, res.title, res.salary, res.departmentid],
-//   (err, data) => {
-//     console.log("Added role!");
-//     menu();
-//   }
-// );
+// add department
+function addDepartment() {
+  inquirer.prompt([
+      {
+          type:"input",
+          name:"department",
+          message:"enter department name"
+      }
+  ]).then((res) => {
+      db.query("INSERT INTO department (department_name) VALUES (?)", [res.department],(err, data) => {
+          if (err) throw err;
+          console.table(data);
+          prompts();
+      })
+  })
+}
 
-// db.query(
-//   `INSERT INTO employee (id,title,salary,departmentid) VALUES (?,?,?,?)`,
-//   [res.id, res.first, res.last, res.departmentid],
-//   (err, data) => {
-//     console.log("Added role!");
-//     menu();
-//   }
-// );
+// add role
+function addRoles() {
+  inquirer.prompt([
+      {
+          type:"input",
+          name:"title",
+          message:"enter role title"
+      },
+      {
+          type:"number",
+          name:"salary",
+          message:"enter salary"
+      },
+      {
+          type:"number",
+          name:"departmentId",
+          message:"enter department ID"
+      }
+  ]).then((res) => {
+      db.query("INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)", [res.title, res.salary, res.departmentId],(err, data) => {
+          if (err) throw err;
+          console.table(data);
+          prompts();
+      })
+  })
+}
 
-// //showing individual databases
-// db.query ('SELECT * FROM department', function (err,results) {
-//     console.log(results);
-// })
-// db.query ('SELECT * FROM role', function (err,results) {
-//     console.log(results);
-// })
-// db.query ('SELECT * FROM employee', function (err,results) {
-//     console.log(results);
-// })
+// update employee role
+function updateRoles() {
+  inquirer.prompt([
+      {
+          type:"number",
+          name:"employeeId",
+          message:"enter employee ID of the employee who's role you want to change"
+      },
+      {
+          type:"number",
+          name:"roleId",
+          message:"enter the ID of the new role"
+      }
+  ]).then((res) => {
+      db.query("UPDATE employee SET role_id = ? WHERE id = ?", [res.roleId, res.employeeId],(err, data) => {
+          if (err) throw err;
+          console.table(data);
+          prompts();
+      })
+  })
+}
 
-// //show all datbases
-// db.query ('SHOW TABLES', function (err,results) {
-//     console.log(results)
-// })
+
+
