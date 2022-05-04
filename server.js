@@ -46,7 +46,7 @@ function loadQuestion() {
         case "add employee":
          addEmployee();
           break;
-        case "update employee":
+        case "update employee role":
          updateRoles();
           break;
         default:
@@ -106,10 +106,10 @@ function addEmployee() {
           prompt: "enter manager ID"
       }
   ]).then((res) => {
-      db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [res.firstName, res.lastName, res.roleId, res.managerId],(err, data) => {
+      db.connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [res.firstName, res.lastName, res.roleId, res.managerId],(err, data) => {
           if (err) throw err;
           console.table(data);
-          prompts();
+          loadQuestion();
       })
   })
 }
@@ -123,10 +123,10 @@ function addDepartment() {
           message:"enter department name"
       }
   ]).then((res) => {
-      db.query("INSERT INTO department (department_name) VALUES (?)", [res.department],(err, data) => {
+      db.connection.query("INSERT INTO department (name) VALUES (?)", [res.department],(err, data) => {
           if (err) throw err;
           console.table(data);
-          prompts();
+          loadQuestion();
       })
   })
 }
@@ -150,10 +150,10 @@ function addRoles() {
           message:"enter department ID"
       }
   ]).then((res) => {
-      db.query("INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)", [res.title, res.salary, res.departmentId],(err, data) => {
+      db.connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [res.title, res.salary, res.departmentId],(err, data) => {
           if (err) throw err;
           console.table(data);
-          prompts();
+          loadQuestion();
       })
   })
 }
@@ -172,10 +172,10 @@ function updateRoles() {
           message:"enter the ID of the new role"
       }
   ]).then((res) => {
-      db.query("UPDATE employee SET role_id = ? WHERE id = ?", [res.roleId, res.employeeId],(err, data) => {
+      db.connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [res.roleId, res.employeeId],(err, data) => {
           if (err) throw err;
           console.table(data);
-          prompts();
+          loadQuestion();
       })
   })
 }
